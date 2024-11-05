@@ -8,6 +8,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject deathVFXPrefab;
     [SerializeField] private float knockBackThrust = 15f;
 
+    AudioManager audioManager;
+
     private int currentHealth;
     private Knockback knockback;
     private Flash flash;
@@ -16,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     {
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Start()
@@ -41,6 +44,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
+            audioManager.PlaySFX(audioManager.enemyDeath);
             Instantiate(deathVFXPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

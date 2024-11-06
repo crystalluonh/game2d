@@ -10,18 +10,18 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
+    [SerializeField] private Transform weaponCollider;
 
     private PlayerControls playerControls;
     private Vector2 movement;
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRender;
+    private Knockback knockback;
     private float startingMoveSpeed;
 
     private bool facingLeft = false;
     private bool isDashing = false;
-
-    AudioManager audioManager;
 
     protected override void Awake()
     {
@@ -31,7 +31,7 @@ public class PlayerController : Singleton<PlayerController>
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRender = GetComponent<SpriteRenderer>();
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        knockback = GetComponent<Knockback>();
     }
 
     private void Start()
@@ -57,6 +57,11 @@ public class PlayerController : Singleton<PlayerController>
         Move();
     }
 
+    public Transform GetWeaponCollider()
+    {
+        return weaponCollider;
+    }
+
     private void PlayerInput()
     {
         movement = playerControls.Movement.Move.ReadValue<Vector2>();
@@ -67,6 +72,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Move()
     {
+        if (knockback.GettingKnockedBack) { return; }
+
         rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
     }
 
@@ -94,7 +101,6 @@ public class PlayerController : Singleton<PlayerController>
             isDashing = true;
             moveSpeed *= dashSpeed;
             myTrailRenderer.emitting = true;
-            audioManager.PlaySFX(audioManager.dash);
             StartCoroutine(EndDashRoutine());
         }
     }

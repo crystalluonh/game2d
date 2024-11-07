@@ -2,8 +2,8 @@
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
+    public AudioSource musicSource;
+    public AudioSource SFXSource;
 
     [Header("-------------- Audio Clip ----------")]
     public AudioClip background;
@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip dash;
 
     private static AudioManager instance;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -23,17 +24,29 @@ public class AudioManager : MonoBehaviour
         // Đặt instance là this và đảm bảo không bị phá hủy khi chuyển cảnh
         instance = this;
         DontDestroyOnLoad(gameObject);
-        
     }
+
     private void Start()
     {
         musicSource.clip = background;
         musicSource.Play();
     }
 
+    // Phát SFX
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);
     }
 
+    // Đặt âm lượng cho Music (Nhạc nền)
+    public void SetMusicVolume(float volume)
+    {
+        musicSource.volume = volume; // Thay đổi âm lượng nhạc nền
+    }
+
+    // Đặt âm lượng cho SFX (Hiệu ứng âm thanh)
+    public void SetSFXVolume(float volume)
+    {
+        SFXSource.volume = volume; // Thay đổi âm lượng SFX
+    }
 }

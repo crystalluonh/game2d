@@ -1,11 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Singleton<PlayerController>
 {
     public bool FacingLeft { get { return facingLeft; } }
-
 
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float dashSpeed = 4f;
@@ -23,15 +23,31 @@ public class PlayerController : Singleton<PlayerController>
     private bool facingLeft = false;
     private bool isDashing = false;
 
+    public static PlayerController instance;
+
     protected override void Awake()
     {
         base.Awake();
+
+        // Kiểm tra nếu player đã tồn tại trong scene, nếu có thì hủy bản sao mới tạo
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // Hủy đối tượng player trùng lặp
+            return;
+        }
+
+        // Nếu chưa có instance, lưu lại instance của player và không xóa khi chuyển scene
+        instance = this;
+        DontDestroyOnLoad(gameObject);
 
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRender = GetComponent<SpriteRenderer>();
         knockback = GetComponent<Knockback>();
+
+        // Đăng ký sự kiện sceneLoaded để kiểm tra khi nào scene "Menu" được tải
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
@@ -114,5 +130,21 @@ public class PlayerController : Singleton<PlayerController>
         myTrailRenderer.emitting = false;
         yield return new WaitForSeconds(dashCD);
         isDashing = false;
+    }
+
+    // Phương thức được gọi khi scene được tải
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Kiểm tra nếu scene là "Menu", xóa đối tượng Player
+        if (scene.name == "Menu")
+        {
+            Destroy(gameObject); // Xóa player khi quay về menu
+        }
+    }
+
+    // Hủy đăng ký sự kiện khi PlayerController bị xóa
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

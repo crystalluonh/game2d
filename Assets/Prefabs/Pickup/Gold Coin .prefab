@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7660722106676538075}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.12, y: 0.24, z: 0}
+  m_LocalPosition: {x: 5.94, y: 0.467, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,8 +125,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.015830517, y: 0.024499416}
-  m_Size: {x: 0.48629856, y: 0.50740623}
+  m_Offset: {x: 0.0045006275, y: 0.024499416}
+  m_Size: {x: 0.52696085, y: 0.52696085}
   m_Direction: 0
 --- !u!50 &5032914883764467201
 Rigidbody2D:
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560e2392bce05e44daab9a05fd4ad172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpType: 0
   pickUpDistance: 4
   accelartionRate: 0.4
   moveSpeed: 2

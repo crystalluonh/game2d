@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +37,10 @@ public class Sword : MonoBehaviour, IWeapon
 
     public void Attack()
     {
+        // Phát âm thanh chém
+        AudioManager.instance.PlaySFX(AudioManager.instance.playerSlash);
+
+        // Bắt đầu animation chém
         myAnimator.SetTrigger("Attack");
         weaponCollider.gameObject.SetActive(true);
         slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
@@ -47,7 +51,6 @@ public class Sword : MonoBehaviour, IWeapon
     {
         weaponCollider.gameObject.SetActive(false);
     }
-
 
     public void SwingUpFlipAnimEvent()
     {

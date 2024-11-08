@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Staff : MonoBehaviour, IWeapon
@@ -22,10 +20,11 @@ public class Staff : MonoBehaviour, IWeapon
         MouseFollowWithOffset();
     }
 
-
     public void Attack()
     {
         myAnimator.SetTrigger(ATTACK_HASH);
+        // Phát âm thanh khi dùng staff
+        AudioManager.instance.PlaySFX(AudioManager.instance.laser, 1.4f);
     }
 
     public void SpawnStaffProjectileAnimEvent()

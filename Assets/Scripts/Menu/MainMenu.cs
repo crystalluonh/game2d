@@ -6,7 +6,6 @@ public class MainMenu : MonoBehaviour
     public GameObject optionsPanel;  // Panel Options
     public GameObject mainMenuPanel; // Panel Menu chính
 
-
     public void PlayGame()
     {
         // Chuyển đến scene chơi game, thay "Scene1" bằng tên scene của bạn
@@ -17,8 +16,16 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Game is quitting...");
 
-        // Thực hiện việc load lại scene, để đảm bảo mọi đối tượng được reset.
-        SceneManager.LoadScene("Menu"); // Hoặc scene menu chính của bạn
+        // Tìm đối tượng Player trong cảnh hiện tại và loại bỏ khỏi DontDestroyOnLoad
+        GameObject player = GameObject.FindGameObjectWithTag("Player3");
+        if (player != null)
+        {
+            // Hủy bỏ đối tượng Player
+            Destroy(player);
+        }
+
+        // Đảm bảo xóa đối tượng Player trước khi chuyển cảnh
+        SceneManager.LoadScene("Menu");  // Hoặc scene menu chính của bạn
         Time.timeScale = 1;  // Đảm bảo thời gian game không bị dừng lại khi chuyển cảnh
     }
 

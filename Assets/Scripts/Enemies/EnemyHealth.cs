@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +8,6 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject deathVFXPrefab;
     [SerializeField] private float knockBackThrust = 15f;
 
-    AudioManager audioManager;
-
     private int currentHealth;
     private Knockback knockback;
     private Flash flash;
@@ -18,7 +16,6 @@ public class EnemyHealth : MonoBehaviour
     {
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Start()
@@ -44,8 +41,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            audioManager.PlaySFX(audioManager.enemyDeath);
+            // Phát âm thanh chết
+            AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeath);
+
+            // Tạo hiệu ứng chết và phá hủy đối tượng
             Instantiate(deathVFXPrefab, transform.position, Quaternion.identity);
+            GetComponent<PickUpSpawner>().DropItems();
             Destroy(gameObject);
         }
     }

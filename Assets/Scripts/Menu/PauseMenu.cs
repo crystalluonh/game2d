@@ -19,11 +19,7 @@ public class PauseMenu : MonoBehaviour
             Destroy(gameObject);  // Nếu đã có instance, hủy đối tượng mới tạo
         }
     }
-    void Start()
-    {
-        Debug.Log("PauseMenuUI active at start of Scene2: " + pauseMenuUI.activeSelf);
-    }
-
+    
 
 
 
@@ -46,7 +42,6 @@ public class PauseMenu : MonoBehaviour
     // Resume game, ẩn menu và tiếp tục game
     public void ResumeGame()
     {
-        Debug.Log("Resume clicked");
         pauseMenuUI.SetActive(false);  // Ẩn Pause Menu
         Time.timeScale = 1;  // Tiếp tục game
         isPaused = false;

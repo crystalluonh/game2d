@@ -10,8 +10,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip playerSlash;
     public AudioClip enemyDeath;
     public AudioClip dash;
+    public AudioClip death;
+    public AudioClip bow;
+    public AudioClip hurt;
+    public AudioClip laser;
 
-    private static AudioManager instance;
+    public static AudioManager instance;
 
     private void Awake()
     {
@@ -33,9 +37,10 @@ public class AudioManager : MonoBehaviour
     }
 
     // Phát SFX
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float pitch = 1f)
     {
         SFXSource.PlayOneShot(clip);
+        SFXSource.pitch = pitch;
     }
 
     // Đặt âm lượng cho Music (Nhạc nền)
